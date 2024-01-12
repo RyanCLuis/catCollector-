@@ -9,5 +9,6 @@ urlpatterns = [
     # first arg - url endpoint
     # sec arg - the view to render
     # third arg(opt) - names the route 
-	path('', views.home, name = 'home')
+	path('', views.home, name = 'home'),
+    path('about/', views.about, name = 'about')
 ]

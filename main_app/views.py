@@ -7,3 +7,6 @@ from django.shortcuts import render
 def home(request):
     # unlike with ejs, we need our html file extension
     return render(request, 'home.html')
+
+def about(request):
+    return render(request, 'about.html')
