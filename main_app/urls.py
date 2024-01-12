@@ -10,5 +10,6 @@ urlpatterns = [
     # sec arg - the view to render
     # third arg(opt) - names the route 
 	path('', views.home, name = 'home'),
-    path('about/', views.about, name = 'about')
+    path('about/', views.about, name = 'about'),
+    path('cats/', views.cats_index, name = 'index')
 ]
