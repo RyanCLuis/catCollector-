@@ -8,8 +8,12 @@ from . import views
 urlpatterns = [
     # first arg - url endpoint
     # sec arg - the view to render
-    # third arg(opt) - names the route 
-	path('', views.home, name = 'home'),
-    path('about/', views.about, name = 'about'),
-    path('cats/', views.cats_index, name = 'index')
+    # thrid arg(opt) - names the route
+    path('', views.home, name='home'),
+    path('about/', views.about, name='about'),
+    # route for the index page of our cats
+    path('cats/', views.cats_index, name='index'),
+    # route for the detail page of our cats
+    # we need an id, as well as way to refer to the id(a route parameter)
+    path('cats/<int:cat_id>', views.cats_detail, name='detail')
 ]
