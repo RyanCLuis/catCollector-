@@ -1,4 +1,6 @@
 from django.shortcuts import render
+# importing our Class-Based-Views (CBVs)
+from django.views.generic.edit import CreateView
 
 from .models import Cat
 
@@ -37,3 +39,12 @@ def cats_detail(request, cat_id):
     cat = Cat.objects.get(id=cat_id)
 
     return render(request, 'cats/detail.html', { 'cat': cat })
+
+# inherit from the CBV - CreateView, to make our cats create view
+class CatCreate(CreateView):
+    # tell the createview to use the Cat model for all its functionality
+    model = Cat
+    # this view creates a form, so we need to identify which fields to use
+    fields = '__all__'
+    # we can add other options inside this view
+    # success_url = '/cats/{cat_id}'
