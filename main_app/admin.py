@@ -1,5 +1,8 @@
 from django.contrib import admin
 # import our cat model
-from .models import Cat
+# add Feeding to the import
+from .models import Cat, Feeding
 # Register your models here.
 admin.site.register(Cat)
+# register the new Feeding Model 
+admin.site.register(Feeding)
