@@ -3,6 +3,7 @@ from django.shortcuts import render
 from django.views.generic.edit import CreateView, UpdateView, DeleteView
 
 from .models import Cat
+from .forms import FeedingForm
 
 # Add this cats list below the imports
 # this was to build our inital view - now we have cats in the db
@@ -40,8 +41,10 @@ def cats_index(request):
 def cats_detail(request, cat_id):
     # find one cat with its id
     cat = Cat.objects.get(id=cat_id)
+    # instantiate FeedingForm to be rendered in our template
+    feeding_form = FeedingForm()
 
-    return render(request, 'cats/detail.html', { 'cat': cat })
+    return render(request, 'cats/detail.html', { 'cat': cat, 'feeding_form': feeding_form })
 
 # inherit from the CBV - CreateView, to make our cats create view
 class CatCreate(CreateView):
