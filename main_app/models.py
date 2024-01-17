@@ -26,7 +26,8 @@ MEALS = (
 # The model for feeding - this is a 1:M relationship with cat
 # one cat caan have many feedings
 class Feeding(models.Model):
-    date = models.DateField()
+    # we can add a custom label to show up on our forms
+    date = models.DateField('Feeding date')
     # meals are a charfield with maaax_length of one, because we're only going to save the first initial of each meal
     # this will help generate a dropdown in the automagically created modelform
     # B-reakfat
