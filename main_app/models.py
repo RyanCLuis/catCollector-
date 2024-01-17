@@ -1,5 +1,14 @@
 from django.db import models
 from django.urls import reverse
+from datetime import date
+
+MEALS = (
+    # this is a tuple with multiple tuples
+    # each of these is called a 2-tuple
+    ('B', "Breakfast"),
+    ('L', 'Lunch'),
+    ('D', 'Dinner'),
+)
 
 # Create your models here.
 class Cat(models.Model):
@@ -15,13 +24,12 @@ class Cat(models.Model):
     def get_absolute_url(self):
         return reverse('detail', kwargs={'cat_id': self.id})
     
-MEALS = (
-    # this is a tuple with multiple tuples
-    # each of these is called a 2-tuple
-    ('B', "Breakfast"),
-    ('L', 'Lunch'),
-    ('D', 'Dinner'),
-)
+    # this is how we can view related data from the main parent model
+    def fed_for_today(self):
+        # we can use django's filter, which produces a queryset for all feedings
+        # we will look at the array(QuerySet) and compare it to the length od the MEALS tuple
+        # we can return a boolean, that will be useful in our detail template
+        return self.feeding_set.filter(date=date.today()).count() >= len(MEALS)
 
 # The model for feeding - this is a 1:M relationship with cat
 # one cat caan have many feedings
@@ -49,3 +57,7 @@ class Feeding(models.Model):
 
     def __str__(self):
         return f"{self.get_meal_display()} on {self.date} for {self.cat}"
+    
+    # change the defualt sort
+    class Meta:
+        ordering = ['-date']

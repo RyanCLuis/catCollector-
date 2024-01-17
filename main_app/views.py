@@ -1,4 +1,4 @@
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 # importing our Class-Based-Views (CBVs)
 from django.views.generic.edit import CreateView, UpdateView, DeleteView
 
@@ -66,3 +66,19 @@ class CatUpdate(UpdateView):
 class CatDelete(DeleteView):
     model = Cat
     success_url = '/cats'
+
+# Feeding and Relationship view functions
+# this is to add a feeding to a cat
+def add_feeding(request, cat_id):
+    # create a ModelForm instance using the data in request.POST
+    form = FeedingForm(request.POST)
+    # it's also important to validate forms.
+    # django gives us a built in function for that
+    if form.is_valid():
+        # dont want to save the feeding to the db until we have a cat id
+        new_feeding = form.save(commit=False)
+        # this is where we add the cat id
+        new_feeding.cat_id = cat_id
+        new_feeding.save()
+    # finally, redirect to the cat detail page
+    return redirect('detail', cat_id=cat_id)
