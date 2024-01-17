@@ -10,12 +10,27 @@ MEALS = (
     ('D', 'Dinner'),
 )
 
+# the Toy Model for our M:M relationship
+class Toy(models.Model):
+    name = models.CharField(max_length=50)
+    color = models.CharField(max_length=20)
+
+    def __str__(self):
+        return f"{self.color} {self.name}"
+    
+    def get_absolute_url(self):
+        return reverse('toy_detail', kwargs={'pk': self.id})
+
 # Create your models here.
 class Cat(models.Model):
     name = models.CharField(max_length=100)
     breed = models.CharField(max_length=100)
     description = models.TextField(max_length=250)
     age = models.IntegerField()
+
+# cats and Toys have a M:M relationship
+# Cats >--< Toys
+    toys = models.ManyToManyField(Toy)
 
     def __str__(self):
         return self.name

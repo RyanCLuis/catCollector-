@@ -1,8 +1,12 @@
+from django.forms.models import BaseModelForm
+from django.http import HttpResponse
 from django.shortcuts import render, redirect
 # importing our Class-Based-Views (CBVs)
 from django.views.generic.edit import CreateView, UpdateView, DeleteView
+from django.views.generic import ListView
+from django.views.generic.detail import DetailView
 
-from .models import Cat
+from .models import Cat, Toy
 from .forms import FeedingForm
 
 # Add this cats list below the imports
@@ -82,3 +86,32 @@ def add_feeding(request, cat_id):
         new_feeding.save()
     # finally, redirect to the cat detail page
     return redirect('detail', cat_id=cat_id)
+
+# LIST OF TOY VIEWS HERE
+# ToyList
+class ToyList(ListView):
+    model = Toy
+    template_name = 'toys/index.html'
+
+# ToyDetail
+class ToyDetail(DetailView):
+    model = Toy
+    template_name = 'toys/detail.html'
+
+# ToyCreate
+class ToyCreate(CreateView):
+    model = Toy
+    fields = ['name', 'color']
+
+    def form_valid(self, form):
+        return super().form_valid(form)
+
+# ToyUpdate
+class ToyUpdate(UpdateView):
+    model = Toy
+    fields = ['name', 'color']
+
+# ToyDelete
+class ToyDelete(DeleteView):
+    model = Toy
+    success_url = '/toys'
