@@ -26,4 +26,7 @@ urlpatterns = [
     path('toys/<int:pk>/delete', views.ToyDelete.as_view(), name='toys_delete'),
     path('toys/<int:pk>', views.ToyDetail.as_view(), name='toys_detail'),
     # Once this is all set up correctly, we'll add some code to associate our toys with our cats, as well as a url to unassociate toys and cats
+    # associate a toy with a cat (M:M)
+    path('cats/<int:cat_id>/assoc_toy/<int:toy_id>', views.assoc_toy, name='assoc_toy'),
+    path('cats/<int:cat_id>/unassoc_toy/<int:toy_id>', views.unassoc_toy, name='unassoc_toy'),
 ]

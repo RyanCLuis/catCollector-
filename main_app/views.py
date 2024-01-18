@@ -45,10 +45,14 @@ def cats_index(request):
 def cats_detail(request, cat_id):
     # find one cat with its id
     cat = Cat.objects.get(id=cat_id)
+    # here, we will get a value list of all the toy ids associated with the cat
+    id_list = cat.toys.all().values_list('id')
+    # this is for all toys cats do not have
+    toys_cat_doesnt_have = Toy.objects.exclude(id__in=id_list)
     # instantiate FeedingForm to be rendered in our template
     feeding_form = FeedingForm()
 
-    return render(request, 'cats/detail.html', { 'cat': cat, 'feeding_form': feeding_form })
+    return render(request, 'cats/detail.html', { 'cat': cat, 'feeding_form': feeding_form, 'toys': toys_cat_doesnt_have })
 
 # inherit from the CBV - CreateView, to make our cats create view
 class CatCreate(CreateView):
@@ -115,3 +119,14 @@ class ToyUpdate(UpdateView):
 class ToyDelete(DeleteView):
     model = Toy
     success_url = '/toys'
+
+# add and remove toys from cats
+def assoc_toy(request, cat_id, toy_id):
+    # Note that you can pass a toy's id instead of the whole toy object
+    Cat.objects.get(id=cat_id).toys.add(toy_id)
+    return redirect('detail', cat_id=cat_id) 
+
+def unassoc_toy(request, cat_id, toy_id):
+    # Note that you can pass a toy's id instead of the whole toy object
+    Cat.objects.get(id=cat_id).toys.remove(toy_id)
+    return redirect('detail', cat_id=cat_id) 
